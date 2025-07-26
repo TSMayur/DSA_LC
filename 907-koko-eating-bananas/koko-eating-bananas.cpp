@@ -1,23 +1,23 @@
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int l = 1, r = *max_element(piles.begin(), piles.end());
-        int ans = r;
-
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            long hours = 0;
-            for (int p : piles)
-                hours += (p + mid - 1) / mid;
-
-            if (hours <= h) {
-                ans = mid;
-                r = mid - 1;
-            } else {
-                l = mid + 1;
-            }
+        int l = 1;
+        int r = 0;
+        for(int i : piles){
+            r = max(i, r);
         }
 
-        return ans;
+        while(l < r){
+            int m = l + (r - l) / 2;
+            
+            int cnt = 0;
+            for(int i : piles){
+                cnt += (long(i) + long(m) - 1) / m; 
+            }
+
+            if(cnt <= h)r = m;
+            else l = m + 1;
+        }
+        return l;
     }
 };
