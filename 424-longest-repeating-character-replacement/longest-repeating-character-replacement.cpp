@@ -1,21 +1,19 @@
 class Solution {
 public:
-    int characterReplacement(std::string s, int k) {
-        unordered_map<char, int> count;
-        int res = 0;
-
-        int l = 0, maxf = 0;
-        for (int r = 0; r < s.size(); r++) {
-            count[s[r]]++;
-            maxf = max(maxf, count[s[r]]);
-
-            while ((r - l + 1) - maxf > k) {
-                count[s[l]]--;
-                l++;
+    int characterReplacement(string s, int k) {
+        int n=s.size();
+        int left=0, right=0, maxFreq=0, maxLen=0;
+        vector<int> mpp(26,0);
+        while(right<n){
+            mpp[s[right]-'A']++;
+            maxFreq=max(maxFreq,mpp[s[right]-'A']);
+            if(right-left+1 - maxFreq > k){
+                mpp[s[left]-'A']--;
+                left++;
             }
-            res = max(res, r - l + 1);
+            maxLen=max(maxLen,right-left+1);
+            right++;
         }
-
-        return res;
+        return maxLen;
     }
 };
