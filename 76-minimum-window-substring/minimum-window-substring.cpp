@@ -1,40 +1,50 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        if (t.empty()) return "";
-
-        unordered_map<char, int> countT, window;
-        for (char c : t) {
-            countT[c]++;
-        }
-
-        int have = 0, need = countT.size();
-        pair<int, int> res = {-1, -1};
-        int resLen = INT_MAX;
-        int l = 0;
-
-        for (int r = 0; r < s.length(); r++) {
-            char c = s[r];
-            window[c]++;
-
-            if (countT.count(c) && window[c] == countT[c]) {
-                have++;
+        vector<int> freq(58,INT_MAX);
+        int m=t.size(),n=s.size();
+        int target=0;
+        for(int i=0;i<m;i++)
+        {
+            if(freq[t[i] - 'A'] == INT_MAX)
+            {
+                target++;
+                freq[t[i] - 'A']=0;
             }
-
-            while (have == need) {
-                if ((r - l + 1) < resLen) {
-                    resLen = r - l + 1;
-                    res = {l, r};
+            freq[t[i]-'A']++;
+        }
+        int l=0,r=0,start=-1,end=-1,size=INT_MAX,cnt=0;
+        while(r<n)
+        {
+            if(freq[s[r] - 'A'] == INT_MAX)
+            {
+                r++;
+                continue;
+            }
+            freq[s[r] - 'A']--;
+            if(freq[s[r] - 'A'] == 0)
+            cnt++;
+            if(cnt == target)
+            {
+                while(freq[s[l] - 'A'] != 0)
+                {
+                    if(freq[s[l] - 'A'] != INT_MAX)
+                    freq[s[l] - 'A']++;
+                    l++;
                 }
-
-                window[s[l]]--;
-                if (countT.count(s[l]) && window[s[l]] < countT[s[l]]) {
-                    have--;
+                if(r-l+1 < size)
+                {
+                    start=l,end=r,size=r-l+1;
                 }
+                freq[s[l] - 'A']++;
                 l++;
+                cnt--;
             }
+            r++;
         }
-
-        return resLen == INT_MAX ? "" : s.substr(res.first, resLen);
+        if(start == -1)
+        return "";
+        else
+        return s.substr(start,end-start+1);
     }
 };
