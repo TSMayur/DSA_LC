@@ -16,6 +16,8 @@ public:
         ListNode* s = head;
 
         while (f != nullptr && f->next != nullptr) {
+            if(f == nullptr && f->next == nullptr) return false;
+            
             f = f->next->next;
             s = s->next;
             
