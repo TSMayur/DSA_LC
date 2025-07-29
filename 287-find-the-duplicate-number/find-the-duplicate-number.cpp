@@ -1,22 +1,31 @@
-class Solution {
+class Solution
+{
 public:
-    int findDuplicate(vector<int>& nums) {
-        int s = 0, f = 0;
-        while (true) {
-            s = nums[s];
-            f = nums[nums[f]];
-            if (s == f) {
-                break;
-            }
+    int findDuplicate(vector<int>& nums)
+    {
+        if (nums.size() == 2)
+            return nums[0];
+        else
+            return Secret(nums);
+    }
+private:
+    int Secret(vector<int>& nums)
+    {
+        int slow = nums[0];
+        int fast = nums[0];
+        slow = nums[slow];
+        fast = nums[nums[fast]];
+        while (slow != fast)
+        {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
         }
-
-        int s2 = 0;
-        while (true) {
-            s = nums[s];
-            s2 = nums[s2];
-            if (s == s2) {
-                return s;
-            }
+        slow = nums[0];
+        while (slow != fast)
+        {
+            slow = nums[slow];
+            fast = nums[fast];
         }
+        return slow;
     }
 };
