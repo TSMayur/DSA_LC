@@ -17,36 +17,25 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if(head==NULL) return NULL; //Edge case
+        unordered_map<Node*, Node*> oldToCopy;
+        oldToCopy[nullptr] = nullptr;
 
-        // Step1 : Create copy nodes in bw original nodes
-        Node* temp = head;
-        while(temp) {
-            Node* copy = new Node(temp->val);
-            copy->next = temp->next;
-            temp->next = copy;
-            temp = temp->next->next;
+        Node* cur = head;
+        while (cur != nullptr) {
+            if (oldToCopy.find(cur) == oldToCopy.end()) {
+                oldToCopy[cur] = new Node(0);
+            }
+            oldToCopy[cur]->val = cur->val;
+            if (oldToCopy.find(cur->next) == oldToCopy.end()) {
+                oldToCopy[cur->next] = new Node(0);
+            }
+            oldToCopy[cur]->next = oldToCopy[cur->next];
+            if (oldToCopy.find(cur->random) == oldToCopy.end()) {
+                oldToCopy[cur->random] = new Node(0);
+            }
+            oldToCopy[cur]->random = oldToCopy[cur->random];
+            cur = cur->next;
         }
-
-        //Step 2: Connect random pointers of copy nodes
-        temp = head;
-        while(temp) {
-            if(temp->random)
-                temp->next->random = temp->random->next;
-            temp = temp->next->next;
-        }
-
-        //Step 3: Disconnect the copied nodes from bw the original nodes
-        temp = head;
-        Node* dummy = new Node(-1);
-        Node* res = dummy;
-        while(temp) {
-            res->next = temp->next;
-            temp->next = temp->next->next;
-            res = res->next;
-            temp = temp->next;
-        }
-
-        return dummy->next;
+        return oldToCopy[head];
     }
 };
