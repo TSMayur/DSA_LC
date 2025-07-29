@@ -17,35 +17,36 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if (!head) {
-            return nullptr;
+        if(head==NULL) return NULL; //Edge case
+
+        // Step1 : Create copy nodes in bw original nodes
+        Node* temp = head;
+        while(temp) {
+            Node* copy = new Node(temp->val);
+            copy->next = temp->next;
+            temp->next = copy;
+            temp = temp->next->next;
         }
 
-        Node* l1 = head;
-        while (l1) {
-            Node* l2 = new Node(l1->val);
-            l2->next = l1->random;
-            l1->random = l2;
-            l1 = l1->next;
+        //Step 2: Connect random pointers of copy nodes
+        temp = head;
+        while(temp) {
+            if(temp->random)
+                temp->next->random = temp->random->next;
+            temp = temp->next->next;
         }
 
-        Node* newHead = head->random;
-
-        l1 = head;
-        while (l1) {
-            Node* l2 = l1->random;
-            l2->random = (l2->next != nullptr) ? l2->next->random : nullptr;
-            l1 = l1->next;
+        //Step 3: Disconnect the copied nodes from bw the original nodes
+        temp = head;
+        Node* dummy = new Node(-1);
+        Node* res = dummy;
+        while(temp) {
+            res->next = temp->next;
+            temp->next = temp->next->next;
+            res = res->next;
+            temp = temp->next;
         }
 
-        l1 = head;
-        while (l1) {
-            Node* l2 = l1->random;
-            l1->random = l2->next;
-            l2->next = (l1->next != nullptr) ? l1->next->random : nullptr;
-            l1 = l1->next;
-        }
-
-        return newHead;
+        return dummy->next;
     }
 };
