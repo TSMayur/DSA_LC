@@ -11,21 +11,21 @@ public:
 private:
     int Secret(vector<int>& nums)
     {
-        int slow = nums[0];
-        int fast = nums[0];
-        slow = nums[slow];
-        fast = nums[nums[fast]];
-        while (slow != fast)
+        int s = nums[0];
+        int f = nums[0];
+        s = nums[s];
+        f = nums[nums[f]];
+        while (s != f)
         {
-            slow = nums[slow];
-            fast = nums[nums[fast]];
+            s = nums[s];
+            f = nums[nums[f]];
         }
-        slow = nums[0];
-        while (slow != fast)
+        s = nums[0];
+        while (s != f)
         {
-            slow = nums[slow];
-            fast = nums[fast];
+            s = nums[s];
+            f = nums[f];
         }
-        return slow;
+        return s;
     }
 };
