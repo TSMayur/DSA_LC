@@ -1,21 +1,21 @@
 class Solution {
 public:
     int uniqueMorseRepresentations(vector<string>& words) {
-        vector<string> morse_map = {".-","-...","-.-.","-..",".","..-.","--.",
+        vector<string> m = {".-","-...","-.-.","-..",".","..-.","--.",
                                     "....","..",".---","-.-",".-..","--","-.",
                                     "---",".--.","--.-",".-.","...","-","..-",
                                     "...-",".--","-..-","-.--","--.."};
 
-        unordered_set<string> transformations;
+        unordered_set<string> t;
 
         for (const string& word : words) {
-            string current_transformation = "";
+            string cu= "";
             for (char c : word) {
-                current_transformation += morse_map[c - 'a'];
+                cu=cu+m[c - 'a'];
             }
-            transformations.insert(current_transformation);
+            t.insert(cu);
         }
 
-        return transformations.size();
+        return t.size();
     }
 };
