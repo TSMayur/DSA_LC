@@ -4,7 +4,7 @@ public:
         int m = img.size();
         int n = img[0].size();
         
-        vector<vector<int>> smoothed_img(m, vector<int>(n));
+        vector<vector<int>> s(m, vector<int>(n));
 
         for (int r = 0; r < m; ++r) {
             for (int c = 0; c < n; ++c) {
@@ -21,10 +21,10 @@ public:
                         }
                     }
                 }
-                smoothed_img[r][c] = sum / count;
+                s[r][c] = sum / count;
             }
         }
 
-        return smoothed_img;
+        return s;
     }
 };
