@@ -4,14 +4,14 @@ public:
         int m = matrix.size();
         int n = matrix[0].size();
 
-        vector<int> row_mins(m, INT_MAX);
-        vector<int> col_maxs(n, 0);
+        vector<int> row_min(m, INT_MAX);
+        vector<int> col_max(n, 0);
 
         // First pass: find all row minimums and column maximums.
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                row_mins[i] = min(row_mins[i], matrix[i][j]);
-                col_maxs[j] = max(col_maxs[j], matrix[i][j]);
+                row_min[i] = min(row_min[i], matrix[i][j]);
+                col_max[j] = max(col_max[j], matrix[i][j]);
             }
         }
 
@@ -19,7 +19,7 @@ public:
         // Second pass: check each element against the pre-calculated values.
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (matrix[i][j] == row_mins[i] && matrix[i][j] == col_maxs[j]) {
+                if (matrix[i][j] == row_min[i] && matrix[i][j] == col_max[j]) {
                     lucky_numbers.push_back(matrix[i][j]);
                 }
             }
